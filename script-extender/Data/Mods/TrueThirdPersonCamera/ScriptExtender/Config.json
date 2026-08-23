@@ -1,0 +1,5 @@
+{
+    "RequiredVersion": 19,
+    "ModTable": "TrueThirdPersonCamera",
+    "FeatureFlags": ["Lua"]
+}

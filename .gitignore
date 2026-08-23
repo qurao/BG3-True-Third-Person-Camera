@@ -1,0 +1,26 @@
+# Build output
+build/
+out/
+dist/
+
+# CMake
+**/CMakeFiles/
+**/CMakeCache.txt
+CMakeUserPresets.json
+
+# vcpkg
+vcpkg_installed/
+
+# MSVC
+*.obj
+*.pdb
+*.ilk
+*.exp
+*.lib
+*.log
+
+# Editors
+.vs/
+.vscode/
+.idea/
+.clang-format

@@ -1,0 +1,418 @@
+{
+  "$schema": "https://raw.githubusercontent.com/AtilioA/BG3-MCM/main/.vscode/schema.json",
+  "SchemaVersion": 1,
+  "ModName": "True Third-Person Camera",
+  "Optional": true,
+  "Tabs": [
+    {
+      "TabId": "global_settings",
+      "TabName": "Global Settings",
+      "Sections": [
+        {
+          "SectionId": "general",
+          "SectionName": "General",
+          "Settings": [
+            {
+              "Id": "OpenPresetPicker",
+              "Name": "Open Preset Picker",
+              "Type": "event_button",
+              "Tooltip": "Opens a list of every Close Camera preset, built-in and custom. Click one to apply it. Custom presets go in %LOCALAPPDATA%\\Larian Studios\\Baldur's Gate 3\\Script Extender\\TrueThirdPersonCamera\\Presets.",
+              "Description": "Opens a list of every Close Camera preset, built-in and custom. Click one to apply it."
+            },
+            {
+              "Id": "ZoomToggleKeyboardKey",
+              "Name": "Camera View Toggle Key",
+              "Type": "keybinding_v2",
+              "Default": {
+                "Keyboard": {
+                  "Key": "KP_MULTIPLY"
+                }
+              },
+              "Tooltip": "Click to press any key on your keyboard to set as your camera toggle key (default Numpad *)."
+            },
+            {
+              "Id": "ZoomToggleHorizontalFlipKey",
+              "Name": "Shoulder Swap Key",
+              "Type": "keybinding_v2",
+              "Default": {
+                "Keyboard": {
+                  "Key": "KP_DIVIDE"
+                }
+              },
+              "Tooltip": "Click to press any key on your keyboard to set as your Shoulder Swap key (default Numpad /). Press B on Xbox or Circle on PlayStation controllers to do the same."
+            },
+            {
+              "Id": "ZoomToggleCharacterSwitchTransitionDuration",
+              "Name": "Character Switch Transition Duration",
+              "Type": "slider_float",
+              "Default": 0.7,
+              "Tooltip": "How many seconds it takes for the camera to move to the next character when you switch.",
+              "Options": {
+                "Min": 0.0,
+                "Max": 5.0,
+                "Step": 0.1
+              }
+            },
+            {
+              "Id": "InvertPitch",
+              "Name": "Invert Camera Pitch",
+              "Type": "checkbox",
+              "Default": false,
+              "Tooltip": "Inverts the up/down camera tilt for mouse and controller."
+            }
+          ]
+        },
+        {
+          "SectionId": "mouse_settings",
+          "SectionName": "Mouse",
+          "Settings": [
+            {
+              "Id": "MouseCameraRotationMult",
+              "Name": "Mouse Look Sensitivity",
+              "Type": "slider_float",
+              "Default": 1.0,
+              "Tooltip": "Camera turning speed for the mouse. Higher is faster.",
+              "Options": {
+                "Min": 0.1,
+                "Max": 5.0,
+                "Step": 0.1
+              }
+            },
+            {
+              "Id": "MousePitchMult",
+              "Name": "Mouse Vertical Look Sensitivity",
+              "Type": "slider_float",
+              "Default": 0.25,
+              "Tooltip": "How fast the camera tilts up and down with the mouse.",
+              "Options": {
+                "Min": 0.0,
+                "Max": 2.0,
+                "Step": 0.05
+              }
+            },
+            {
+              "Id": "MouseZoomMult",
+              "Name": "Mouse Zoom Sensitivity",
+              "Type": "slider_float",
+              "Default": 0.5,
+              "Tooltip": "How fast the camera zooms with the mouse wheel.",
+              "Options": {
+                "Min": 0.0,
+                "Max": 2.0,
+                "Step": 0.05
+              }
+            }
+          ]
+        },
+        {
+          "SectionId": "controller_settings",
+          "SectionName": "Controller",
+          "Settings": [
+            {
+              "Id": "ControllerCameraRotationMult",
+              "Name": "Controller Look Sensitivity",
+              "Type": "slider_float",
+              "Default": 2.0,
+              "Tooltip": "Camera turning speed for the controller right stick. Higher is faster.",
+              "Options": {
+                "Min": 0.1,
+                "Max": 5.0,
+                "Step": 0.1
+              }
+            },
+            {
+              "Id": "ControllerPitchMult",
+              "Name": "Controller Vertical Look Sensitivity",
+              "Type": "slider_float",
+              "Default": 0.5,
+              "Tooltip": "How fast the camera tilts up and down with the controller.",
+              "Options": {
+                "Min": 0.0,
+                "Max": 2.0,
+                "Step": 0.05
+              }
+            },
+            {
+              "Id": "ControllerZoomMult",
+              "Name": "Controller Zoom Sensitivity",
+              "Type": "slider_float",
+              "Default": 0.5,
+              "Tooltip": "How fast the camera zooms with the controller.",
+              "Options": {
+                "Min": 0.0,
+                "Max": 2.0,
+                "Step": 0.05
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TabId": "close_camera_settings",
+      "TabName": "Close Camera Settings",
+      "Sections": [
+        {
+          "SectionId": "close_camera",
+          "SectionName": "Close Camera",
+          "SectionDescription": "The fixed over-the-shoulder camera you switch to with the toggle button/key. Can't be manually zoomed. This is where the dynamic combat camera and all of this mod's other features apply.",
+          "Settings": [
+            {
+              "Id": "ZoomToggleCloseValue",
+              "Name": "Normal Zoom",
+              "Type": "slider_float",
+              "Default": 2.5,
+              "Tooltip": "Camera zoom distance when in Close (over-the-shoulder) view mode.",
+              "Options": {
+                "Min": 0.5,
+                "Max": 10.0,
+                "Step": 0.05
+              }
+            },
+            {
+              "Id": "ZoomToggleCloseFOV",
+              "Name": "Normal Field of View",
+              "Type": "slider_float",
+              "Default": 40.0,
+              "Tooltip": "Field of view when in Close Camera view. Lower values feel more cinematic, higher values show more of the scene.",
+              "Options": {
+                "Min": 20.0,
+                "Max": 90.0,
+                "Step": 1.0
+              }
+            },
+            {
+              "Id": "ZoomToggleCloseHorizontalOffset",
+              "Name": "Horizontal Offset",
+              "Type": "slider_float",
+              "Default": 0.5,
+              "Tooltip": "Left/right shoulder offset of the camera in Close view. Positive values move the camera to the right, negative to the left.",
+              "Options": {
+                "Min": 0.0,
+                "Max": 2.0,
+                "Step": 0.01
+              }
+            },
+            {
+              "Id": "ZoomToggleCloseVerticalOffset",
+              "Name": "Vertical Offset",
+              "Type": "slider_float",
+              "Default": 0.74,
+              "Tooltip": "Up/down offset of the camera in Close view while standing.",
+              "Options": {
+                "Min": 0.0,
+                "Max": 2.0,
+                "Step": 0.01
+              }
+            },
+            {
+              "Id": "ZoomToggleCrouchVerticalOffset",
+              "Name": "Crouch Vertical Offset",
+              "Type": "slider_float",
+              "Default": -0.2,
+              "Tooltip": "Additional vertical offset applied while the character is crouching in Close view.",
+              "Options": {
+                "Min": -0.5,
+                "Max": 0.5,
+                "Step": 0.01
+              }
+            }
+          ]
+        },
+        {
+          "SectionId": "cast_camera",
+          "SectionName": "Spell/Attack Cast Camera",
+          "SectionDescription": "Camera used while aiming or casting a spell or attack outside of combat.",
+          "Settings": [
+            {
+              "Id": "ZoomToggleCastMinZoom",
+              "Name": "Cast Zoom",
+              "Type": "slider_float",
+              "Default": 5.0,
+              "Tooltip": "Fixed zoom distance while aiming a spell or attack outside combat, or using free look.",
+              "Options": {
+                "Min": 1.0,
+                "Max": 10.0,
+                "Step": 0.05
+              }
+            }
+          ]
+        },
+        {
+          "SectionId": "close_camera_advanced",
+          "SectionName": "Advanced",
+          "SectionDescription": "Adds on top of the sliders above while sprinting. Does nothing at 0.",
+          "Settings": [
+            {
+              "Id": "ZoomToggleRunningZoomIncrease",
+              "Name": "Running Zoom",
+              "Type": "slider_float",
+              "Default": -0.1,
+              "Tooltip": "Extra zoom while running. Negative brings the camera closer instead.",
+              "Options": {
+                "Min": -5.0,
+                "Max": 5.0,
+                "Step": 0.05
+              }
+            },
+            {
+              "Id": "ZoomToggleRunningFOVIncrease",
+              "Name": "Running Field of View",
+              "Type": "slider_float",
+              "Default": 5.0,
+              "Tooltip": "Extra field of view while running. Negative narrows it instead.",
+              "Options": {
+                "Min": -20.0,
+                "Max": 30.0,
+                "Step": 0.5
+              }
+            },
+            {
+              "Id": "ZoomToggleRunningHorizontalOffsetIncrease",
+              "Name": "Running Horizontal Offset",
+              "Type": "slider_float",
+              "Default": 0.0,
+              "Tooltip": "Extra left/right offset while running.",
+              "Options": {
+                "Min": -2.0,
+                "Max": 2.0,
+                "Step": 0.01
+              }
+            },
+            {
+              "Id": "ZoomToggleRunningVerticalOffsetIncrease",
+              "Name": "Running Vertical Offset",
+              "Type": "slider_float",
+              "Default": 0.0,
+              "Tooltip": "Extra up/down offset while running.",
+              "Options": {
+                "Min": -2.0,
+                "Max": 2.0,
+                "Step": 0.01
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TabId": "combat_camera_settings",
+      "TabName": "Combat Camera Settings",
+      "Sections": [
+        {
+          "SectionId": "combat_camera",
+          "SectionName": "Combat Camera (Action)",
+          "SectionDescription": "Camera used in combat while moving, or while an attack or spell is playing out, yours or an enemy's.",
+          "Settings": [
+            {
+              "Id": "ZoomToggleSelectorCloseValue",
+              "Name": "Combat Zoom",
+              "Type": "slider_float",
+              "Default": 2.9,
+              "Tooltip": "Fixed zoom distance during combat while you or an enemy is moving, attacking, or casting a spell.",
+              "Options": {
+                "Min": 2.0,
+                "Max": 10.0,
+                "Step": 0.05
+              }
+            },
+            {
+              "Id": "ZoomToggleCombatFOV",
+              "Name": "Combat Field of View",
+              "Type": "slider_float",
+              "Default": 40.0,
+              "Tooltip": "Field of view used during combat while you or an enemy is moving, attacking, or casting a spell.",
+              "Options": {
+                "Min": 20.0,
+                "Max": 90.0,
+                "Step": 1.0
+              }
+            }
+          ]
+        },
+        {
+          "SectionId": "combat_action_camera",
+          "SectionName": "Combat Camera (Aiming)",
+          "SectionDescription": "Camera used on your own turn while you're aiming or picking a target, such as choosing a spell, attack, or where to move.",
+          "Settings": [
+            {
+              "Id": "ZoomToggleCombatActionZoom",
+              "Name": "Aiming Zoom",
+              "Type": "slider_float",
+              "Default": 5.0,
+              "Tooltip": "Zoom while aiming/selecting a target in combat.",
+              "Options": {
+                "Min": 1.0,
+                "Max": 10.0,
+                "Step": 0.05
+              }
+            },
+            {
+              "Id": "ZoomToggleCombatActionFOV",
+              "Name": "Aiming Field of View",
+              "Type": "slider_float",
+              "Default": 50.0,
+              "Tooltip": "FOV while aiming/selecting a target in combat.",
+              "Options": {
+                "Min": 20.0,
+                "Max": 90.0,
+                "Step": 1.0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TabId": "far_camera_settings",
+      "TabName": "Far Camera Settings",
+      "Sections": [
+        {
+          "SectionId": "far_camera",
+          "SectionName": "Far Camera",
+          "SectionDescription": "This is the Far camera view, working almost exactly like the original Native Camera Tweaks mod. It can be manually zoomed, but the dynamic combat camera and this mod's other features only apply in Close view.",
+          "Settings": [
+            {
+              "Id": "VanillaFarCamera",
+              "Name": "Use Vanilla Camera in Far View",
+              "Type": "checkbox",
+              "Default": false,
+              "Tooltip": "When enabled, the Far view camera behaves exactly like the vanilla game camera, in every situation."
+            },
+            {
+              "Id": "UnlockedPitchLimitClipping",
+              "Name": "Prevent Floor Clipping",
+              "Type": "checkbox",
+              "Default": true,
+              "Tooltip": "Keeps the camera from clipping through floors and walls. Can cause a visible snap while aiming near a wall or the ground. Turn off to avoid that, at the cost of sometimes seeing underground. Close view always avoids clipping regardless of this setting."
+            },
+            {
+              "Id": "ZoomToggleFarValue",
+              "Name": "Far Zoom",
+              "Type": "slider_float",
+              "Default": 10.0,
+              "Tooltip": "Camera zoom distance in Far view.",
+              "Options": {
+                "Min": 5.0,
+                "Max": 30.0,
+                "Step": 0.5
+              }
+            },
+            {
+              "Id": "ZoomToggleFarFOV",
+              "Name": "Far Field of View",
+              "Type": "slider_float",
+              "Default": 55.0,
+              "Tooltip": "Field of view in Far view.",
+              "Options": {
+                "Min": 20.0,
+                "Max": 90.0,
+                "Step": 1.0
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

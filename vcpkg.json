@@ -1,0 +1,15 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/vcpkg.schema.json",
+    "name": "truethirdpersoncamera",
+    "version-string": "1.0.0",
+    "description": "Third-person camera overhaul for Baldur's Gate 3",
+    "dependencies": [
+        "fmt",
+        "spdlog",
+        "nlohmann-json",
+        "simpleini",
+        "tomlplusplus",
+        "xbyak"
+    ],
+    "builtin-baseline": "66affb04e3b889a3210f7f24bef2fa93a557fa62"
+}
