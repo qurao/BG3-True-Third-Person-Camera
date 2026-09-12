@@ -1,0 +1,47 @@
+   name: Build RotateOverride DLL
+
+   # Builds True Third-Person Camera (with the RotateOverride patch already
+   # applied in this checkout) using the project's own official toolchain:
+   # Visual Studio 2022 + vcpkg, on a GitHub-hosted Windows runner.
+   #
+   # Usage: push this repo (with the patch applied) to GitHub, or manually
+   # trigger this workflow from the Actions tab. Download the built DLL from
+   # the "TrueThirdPersonCamera-dll" artifact once the run finishes.
+
+   on:
+     push:
+     workflow_dispatch:
+
+   jobs:
+     build:
+       runs-on: windows-2022
+
+       steps:
+         - name: Check out repository
+           uses: actions/checkout@v4
+
+         - name: Set up vcpkg
+           uses: lukka/run-vcpkg@v11
+           with:
+             vcpkgGitCommitId: 66affb04e3b889a3210f7f24bef2fa93a557fa62
+
+         - name: Configure
+           shell: pwsh
+           run: |
+             cmake --preset REL -B build `
+               -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
+
+         - name: Build
+           shell: pwsh
+           run: cmake --build build --config Release
+
+         - name: Locate built DLL
+           shell: pwsh
+           run: Get-ChildItem -Recurse build -Filter "TrueThirdPersonCamera.dll"
+
+         - name: Upload artifact
+           uses: actions/upload-artifact@v4
+           with:
+             name: TrueThirdPersonCamera-dll
+             path: build/**/TrueThirdPersonCamera.dll
+             if-no-files-found: error
